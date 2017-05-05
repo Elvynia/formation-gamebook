@@ -13,10 +13,13 @@ public class Game {
 	@XmlElementWrapper(name = "steps")
 	@XmlElement(name = "step")
 	private List<Step> steps;
-	@XmlAttribute
+
+	@XmlAttribute(name = "title")
 	public String title;
+
 	@XmlAttribute
 	public String id;
+
 	@XmlAttribute
 	public String lang;
 

@@ -9,10 +9,13 @@ public class Step {
 
 	@XmlElement
 	public int id;
+
 	@XmlElement
 	public String description;
+
 	@XmlElement
 	public String question;
+
 	@XmlElementWrapper(name = "actions")
 	@XmlElement(name = "choice")
 	public List<Choice> actions;
