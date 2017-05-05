@@ -1,5 +1,6 @@
 package fr.formation.gamebook.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -8,7 +9,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Game {
+public class Game implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@XmlElementWrapper(name = "steps")
 	@XmlElement(name = "step")
