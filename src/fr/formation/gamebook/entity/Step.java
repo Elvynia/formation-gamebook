@@ -1,11 +1,14 @@
 package fr.formation.gamebook.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-public class Step {
+public class Step implements Comparable<Step>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 
@@ -78,6 +81,11 @@ public class Step {
 	 */
 	public void setChoices(List<Choice> choices) {
 		this.choices = choices;
+	}
+
+	@Override
+	public int compareTo(Step step) {
+		return this.id.compareTo(step.id);
 	}
 
 }
