@@ -17,6 +17,17 @@ public class Game {
 	private String id;
 
 	private List<Step> steps;
+	
+	public Step getStep(final int id) {
+		Step result = null;
+		for (final Step step : this.steps) {
+			if (step.getId() == id) {
+				result = step;
+				break;
+			}
+		}
+		return result;
+	}
 
 	/**
 	 * @return the title
