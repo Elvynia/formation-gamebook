@@ -41,7 +41,6 @@ public class GameBook implements Runnable {
 
 	private String dataPath;
 	private String savePath;
-	private Game game;
 	private Scanner scanner;
 	private Step currentStep;
 
@@ -54,13 +53,13 @@ public class GameBook implements Runnable {
 	@Override
 	public void run() {
 		if (this.checkPath()) {
-			this.game = this.parseData();
+			final Game game = this.parseData();
 			this.parseSave();
-			if (this.game != null) {
+			if (game != null) {
 				GameBook.LOGGER
-						.debug("Nom du jeu paramétré : " + this.game.title);
+						.debug("Nom du jeu paramétré : " + game.title);
 				GameBook.LOGGER.debug(
-						"Nombre d'étapes du jeu : " + this.game.steps.size());
+						"Nombre d'étapes du jeu : " + game.steps.size());
 				this.startGame();
 				while (this.continueGame()) {
 					this.displayGame();
@@ -100,7 +99,8 @@ public class GameBook implements Runnable {
 						&& choiceIndex < this.currentStep.actions.size()) {
 					final Choice choice = this.currentStep.actions
 							.get(choiceIndex);
-					this.currentStep = this.game.getById(choice.gotostep);
+					final Game game = this.parseData();
+					this.currentStep = game.getById(choice.gotostep);
 					valid = true;
 				} else {
 					GameBook.LOGGER.error(GameBook.MSG_ERR_INPUT);
@@ -135,7 +135,8 @@ public class GameBook implements Runnable {
 			// Ne pas sauvgarder, save est déjà à false.
 		}
 		if (save) {
-			this.game.save(this.currentStep);
+			final Game game = this.parseData();
+			game.save(this.currentStep);
 		}
 	}
 
@@ -165,10 +166,11 @@ public class GameBook implements Runnable {
 	 * Initialise la valeur de l'étape courante pour commencer le jeu.
 	 */
 	private void startGame() {
+		final Game game = this.parseData();
 		// Vérification de l'association entre Game et Save.
-		if (this.game.checkSave()) {
+		if (game.checkSave()) {
 			// Démarrage du jeu au premier step d'identifiant 0.
-			this.currentStep = this.game.getStartStep();
+			this.currentStep = game.getStartStep();
 		} else {
 			GameBook.LOGGER.error("Impossible de lancer le jeu, "
 					+ "la sauvegarde ne correspond pas au jeu lancé.");
@@ -196,12 +198,13 @@ public class GameBook implements Runnable {
 	 */
 	private void parseSave() {
 		if (this.savePath != null) {
-			this.game.load(this.savePath);
+			final Game game = this.parseData();
+			game.load(this.savePath);
 		}
 	}
 
 	private void showUsage() {
-		GameBook.LOGGER.info("Usage : gamebook <path_to_xml_data>");
+		GameBook.LOGGER.info("Usage : gamebook <path_to_xml_data> [path_to_xml_save]");
 	}
 
 	/**
